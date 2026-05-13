@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { BrandLayout, NinjaBanner } from "../components/BrandLayout";
 import { MAX_STAMPS, customerRepository } from "@/lib/customerRepository";
 import { useCustomers } from "@/lib/useCustomers";
 
@@ -24,38 +25,43 @@ export default function AdminPage() {
     refresh();
   }
 
+  function confirmAndRun(message: string, action: () => void) {
+    if (!window.confirm(message)) return;
+    updateAndRefresh(action);
+  }
+
   return (
-    <main className="page">
-      <section className="shell">
-        <div className="admin-row" style={{ marginBottom: 20 }}>
+    <BrandLayout backHref="/" backLabel="トップへ">
+      <section className="admin-brand">
+        <NinjaBanner label="店側 管理の間" />
+        <div className="admin-row" style={{ padding: 20 }}>
           <div>
-            <Link href="/" className="muted">
-              ← トップへ
-            </Link>
-            <h1 style={{ fontSize: 38, margin: "14px 0 6px" }}>店側の管理画面</h1>
+            <span className="badge">鉄板前で使う、常連さん管理</span>
+            <h1 className="section-title" style={{ marginTop: 14 }}>
+              店側の管理画面
+            </h1>
             <p className="muted" style={{ fontSize: 18, margin: 0 }}>
-              スタンプの追加・修正、来店回数の確認ができます。
+              スタンプ追加、修正、特典確認をここで行います。
             </p>
           </div>
-          <Link className="button" href="/register">
+          <Link className="button gold" href="/register">
             新規登録
           </Link>
         </div>
+      </section>
 
-        <div className="grid two">
-          <div className="card">
+      <section className="stat-grid">
+          <div className="brand-card stat-card">
             <strong style={{ fontSize: 34 }}>{customers.length}</strong>
             <p className="muted">登録中のお客さん</p>
           </div>
-          <div className="card">
-            <strong style={{ fontSize: 34, color: "var(--sauce)" }}>
-              {rewardReady.length}
-            </strong>
+          <div className="brand-card stat-card">
+            <strong style={{ fontSize: 34 }}>{rewardReady.length}</strong>
             <p className="muted">10個たまったお客さん</p>
           </div>
-        </div>
+      </section>
 
-        <div className="panel" style={{ padding: 18, marginTop: 20 }}>
+        <section className="brand-card" style={{ padding: 18 }}>
           <label htmlFor="search" style={{ fontSize: 18, fontWeight: 900 }}>
             お客さん検索
           </label>
@@ -67,40 +73,41 @@ export default function AdminPage() {
             placeholder="名前またはユーザーIDで検索"
             style={{ marginTop: 10 }}
           />
-        </div>
+        </section>
 
-        <div className="grid" style={{ marginTop: 20 }}>
+        <section className="customer-list">
           {filteredCustomers.length === 0 ? (
-            <div className="panel" style={{ padding: 28, textAlign: "center" }}>
+            <div className="brand-card empty-state">
               <p className="lead">該当するお客さんがいません。</p>
             </div>
           ) : (
             filteredCustomers.map((customer) => (
-              <article className="panel" style={{ padding: 18 }} key={customer.id}>
-                <div className="admin-row">
-                  <div>
-                    <h2 style={{ fontSize: 26, margin: 0 }}>{customer.name}</h2>
-                    <p className="muted" style={{ margin: "6px 0" }}>
-                      ID: {customer.id}
-                    </p>
-                    <p style={{ fontSize: 18, margin: "8px 0" }}>
-                      スタンプ <strong>{customer.stampCount}</strong> / {MAX_STAMPS}
-                      {"　"}来店 <strong>{customer.visitCount}</strong> 回
-                    </p>
-                    <p className="muted" style={{ margin: 0 }}>
-                      最終来店日: {customer.lastVisitDate ?? "まだありません"}
-                    </p>
+              <article className="brand-card customer-admin-card" key={customer.id}>
+                <div>
+                  <h2 style={{ fontSize: 28, margin: 0 }}>{customer.name}</h2>
+                  <p className="muted" style={{ margin: "8px 0 12px" }}>
+                    ID: {customer.id}
+                  </p>
+                  <div className="customer-admin-card__meta">
+                    <span className="pill">スタンプ {customer.stampCount} / {MAX_STAMPS}</span>
+                    <span className="pill">来店 {customer.visitCount} 回</span>
+                    <span className="pill">
+                      最終 {customer.lastVisitDate ?? "まだありません"}
+                    </span>
                     {customer.stampCount >= MAX_STAMPS && (
-                      <p style={{ color: "var(--sauce)", fontWeight: 900 }}>
-                        特典が使えます
-                      </p>
+                      <span className="pill ready">特典が使えます</span>
                     )}
+                    {customer.rewardUsed && <span className="pill">特典利用済み</span>}
                   </div>
-                  <div className="grid" style={{ minWidth: 220 }}>
+                </div>
+                  <div className="action-grid">
                     <button
                       className="button"
                       onClick={() =>
-                        updateAndRefresh(() => customerRepository.addStamp(customer.id))
+                        confirmAndRun(
+                          `${customer.name}さんにスタンプを1個追加します。よろしいですか？`,
+                          () => customerRepository.addStamp(customer.id)
+                        )
                       }
                     >
                       スタンプ +1
@@ -108,7 +115,10 @@ export default function AdminPage() {
                     <button
                       className="button secondary"
                       onClick={() =>
-                        updateAndRefresh(() => customerRepository.removeStamp(customer.id))
+                        confirmAndRun(
+                          `${customer.name}さんのスタンプを1個減らします。よろしいですか？`,
+                          () => customerRepository.removeStamp(customer.id)
+                        )
                       }
                     >
                       間違い修正 -1
@@ -116,7 +126,10 @@ export default function AdminPage() {
                     <button
                       className="button secondary"
                       onClick={() =>
-                        updateAndRefresh(() => customerRepository.markRewardUsed(customer.id))
+                        confirmAndRun(
+                          `${customer.name}さんの特典を利用済みにします。スタンプは0に戻ります。`,
+                          () => customerRepository.markRewardUsed(customer.id)
+                        )
                       }
                     >
                       特典利用済みにする
@@ -125,12 +138,10 @@ export default function AdminPage() {
                       カードを見る
                     </Link>
                   </div>
-                </div>
               </article>
             ))
           )}
-        </div>
-      </section>
-    </main>
+        </section>
+    </BrandLayout>
   );
 }

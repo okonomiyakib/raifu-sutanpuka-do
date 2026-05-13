@@ -1,28 +1,39 @@
 :root {
-  --iron: #2f302d;
-  --iron-soft: #474640;
-  --sauce: #7a2d18;
-  --sauce-bright: #b84a24;
-  --wood: #8b5a2b;
-  --wood-light: #d2a067;
-  --cream: #fff7e8;
-  --paper: #fffaf1;
-  --mayo: #f8e9bd;
-  --green: #3f7d4b;
+  --night: #15120f;
+  --charcoal: #24211d;
+  --iron: #3a3832;
+  --sauce: #7b2f18;
+  --sauce-bright: #c65326;
+  --wood: #7b4b25;
+  --wood-dark: #4a2e1b;
+  --kinari: #fff4df;
+  --paper: #fffaf0;
+  --gold: #d9a84f;
+  --gold-soft: #ffe0a0;
+  --green: #2f8b4c;
+  --blue: #2d6f8f;
+  --shadow: 0 24px 70px rgba(15, 10, 5, 0.28);
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  color: var(--iron);
+  color: var(--kinari);
   background:
-    radial-gradient(circle at top left, rgba(210, 160, 103, 0.38), transparent 32rem),
-    linear-gradient(135deg, #fff7e8 0%, #f2dbc0 100%);
+    radial-gradient(circle at 12% 10%, rgba(217, 168, 79, 0.18), transparent 28rem),
+    radial-gradient(circle at 85% 0%, rgba(45, 111, 143, 0.2), transparent 24rem),
+    linear-gradient(145deg, #0f0d0b 0%, var(--night) 46%, #24150d 100%);
   font-family:
-    "Hiragino Maru Gothic ProN",
+    "Hiragino Mincho ProN",
+    "Yu Mincho",
+    "Hiragino Sans",
     "Yu Gothic",
     "YuGothic",
     system-ui,
@@ -39,95 +50,224 @@ input {
   font: inherit;
 }
 
-.page {
+button {
+  border: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.page,
+.brand-page {
+  position: relative;
   min-height: 100vh;
-  padding: 20px;
+  overflow: hidden;
+  padding: 18px;
+}
+
+.brand-page--compact {
+  display: grid;
+  place-items: start center;
 }
 
 .shell {
-  width: min(100%, 960px);
+  width: min(100%, 1060px);
   margin: 0 auto;
 }
 
 .phone-shell {
-  width: min(100%, 460px);
+  width: min(100%, 480px);
   margin: 0 auto;
 }
 
+.brand-stack {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 18px;
+}
+
+.brand-glow {
+  position: fixed;
+  pointer-events: none;
+  filter: blur(12px);
+  opacity: 0.7;
+}
+
+.brand-glow--gold {
+  inset: -140px auto auto -120px;
+  width: 280px;
+  height: 280px;
+  border-radius: 999px;
+  background: rgba(217, 168, 79, 0.26);
+}
+
+.brand-glow--blue {
+  right: -120px;
+  bottom: 10%;
+  width: 240px;
+  height: 240px;
+  border-radius: 999px;
+  background: rgba(45, 111, 143, 0.2);
+}
+
 .hero {
-  min-height: 100vh;
   display: grid;
   place-items: center;
 }
 
-.panel {
-  background: rgba(255, 250, 241, 0.92);
-  border: 2px solid rgba(139, 90, 43, 0.18);
+.panel,
+.brand-card,
+.paper-card {
+  border: 1px solid rgba(255, 224, 160, 0.18);
   border-radius: 28px;
-  box-shadow: 0 22px 60px rgba(72, 45, 22, 0.18);
+  box-shadow: var(--shadow);
+}
+
+.panel,
+.brand-card {
+  background:
+    linear-gradient(145deg, rgba(42, 35, 28, 0.95), rgba(20, 17, 14, 0.97)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 16px);
+}
+
+.paper-card {
+  color: var(--charcoal);
+  background:
+    linear-gradient(180deg, rgba(255, 250, 240, 0.98), rgba(255, 244, 223, 0.96)),
+    repeating-linear-gradient(135deg, rgba(123, 75, 37, 0.04) 0 2px, transparent 2px 12px);
 }
 
 .wood-panel {
-  color: #fff7e8;
+  color: var(--kinari);
   background:
-    linear-gradient(135deg, rgba(122, 45, 24, 0.94), rgba(47, 48, 45, 0.94)),
-    repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0 2px, transparent 2px 14px);
+    linear-gradient(135deg, rgba(123, 47, 24, 0.92), rgba(36, 33, 29, 0.96)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0 2px, transparent 2px 14px);
 }
 
-.badge {
+.ninja-banner {
+  position: relative;
+  min-height: 122px;
+  overflow: hidden;
+  border-radius: 26px;
+  border: 1px solid rgba(255, 224, 160, 0.24);
+  background: var(--charcoal);
+  box-shadow: var(--shadow);
+}
+
+.ninja-banner img {
+  width: 100%;
+  height: 100%;
+  min-height: 122px;
+  object-fit: cover;
+}
+
+.ninja-banner__shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(14, 11, 8, 0.8), rgba(14, 11, 8, 0.18) 58%, rgba(14, 11, 8, 0.7)),
+    linear-gradient(180deg, transparent, rgba(14, 11, 8, 0.24));
+}
+
+.ninja-banner__label {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: var(--gold-soft);
+  background: rgba(15, 12, 9, 0.72);
+  border: 1px solid rgba(255, 224, 160, 0.24);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.badge,
+.rank-badge {
   display: inline-flex;
   align-items: center;
+  width: fit-content;
   gap: 8px;
   padding: 8px 14px;
-  border: 1px solid rgba(122, 45, 24, 0.22);
+  border: 1px solid rgba(217, 168, 79, 0.32);
   border-radius: 999px;
-  color: var(--sauce);
-  background: #fffaf1;
-  font-weight: 800;
+  color: var(--gold-soft);
+  background: rgba(217, 168, 79, 0.12);
+  font-weight: 900;
 }
 
 .title {
   margin: 0;
-  font-size: clamp(34px, 9vw, 72px);
-  line-height: 1.05;
+  font-size: clamp(38px, 10vw, 76px);
+  line-height: 1.04;
   letter-spacing: 0;
 }
 
+.section-title {
+  margin: 0;
+  color: var(--kinari);
+  font-size: clamp(28px, 7vw, 48px);
+  line-height: 1.15;
+}
+
 .lead {
-  font-size: clamp(18px, 4vw, 24px);
+  margin: 0;
+  color: rgba(255, 244, 223, 0.82);
+  font-size: clamp(18px, 4.5vw, 23px);
   line-height: 1.8;
-  color: #5f5349;
+}
+
+.muted {
+  color: rgba(255, 244, 223, 0.66);
+}
+
+.paper-muted {
+  color: #6f6257;
 }
 
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 56px;
-  padding: 14px 22px;
-  border: 0;
-  border-radius: 18px;
+  min-height: 60px;
+  padding: 15px 22px;
+  border-radius: 999px;
   color: white;
   background: linear-gradient(135deg, var(--sauce-bright), var(--sauce));
-  box-shadow: 0 12px 24px rgba(122, 45, 24, 0.28);
+  box-shadow: 0 14px 28px rgba(123, 47, 24, 0.34);
   font-size: 18px;
   font-weight: 900;
   cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
 }
 
-.button.secondary {
-  color: var(--sauce);
-  background: #fffaf1;
-  border: 2px solid rgba(122, 45, 24, 0.2);
-  box-shadow: none;
-}
-
-.button.green {
-  background: linear-gradient(135deg, #34a853, var(--green));
+.button:hover {
+  transform: translateY(-2px);
+  filter: saturate(1.08);
+  box-shadow: 0 18px 36px rgba(123, 47, 24, 0.4);
 }
 
 .button:active {
   transform: scale(0.98);
+}
+
+.button.secondary {
+  color: var(--kinari);
+  background: rgba(255, 244, 223, 0.08);
+  border: 1px solid rgba(255, 224, 160, 0.28);
+  box-shadow: none;
+}
+
+.button.green {
+  background: linear-gradient(135deg, #38ad5f, var(--green));
+}
+
+.button.gold {
+  color: #2b1c10;
+  background: linear-gradient(135deg, #ffe0a0, var(--gold));
 }
 
 .grid {
@@ -135,38 +275,177 @@ input {
   gap: 16px;
 }
 
-.stamp-grid {
+.hero-card {
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+}
+
+.hero-card__visual {
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255, 224, 160, 0.22), transparent 14rem),
+    rgba(255, 244, 223, 0.06);
+  border: 1px solid rgba(255, 224, 160, 0.18);
+}
+
+.owner-figure {
+  width: min(72%, 260px);
+  border-radius: 28px;
+  background: rgba(255, 250, 240, 0.94);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+.owner-avatar {
+  width: 118px;
+  height: 118px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--paper);
+  border: 4px solid var(--gold);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.22);
+}
+
+.owner-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 12%;
+  transform: scale(1.55);
+}
+
+.customer-card-head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: center;
+  margin-top: -46px;
+  padding: 0 12px;
+}
+
+.message-card {
+  padding: 18px;
+}
+
+.stamp-count {
+  text-align: center;
+}
+
+.stamp-count strong {
+  display: block;
+  color: var(--gold-soft);
+  font-size: clamp(74px, 22vw, 110px);
+  line-height: 0.95;
+  text-shadow: 0 8px 28px rgba(217, 168, 79, 0.22);
+}
+
+.stamp-card {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 12px;
+  padding: 16px;
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(255, 250, 240, 0.98), rgba(255, 244, 223, 0.95)),
+    repeating-linear-gradient(90deg, rgba(123, 75, 37, 0.04) 0 1px, transparent 1px 18px);
+  border: 1px solid rgba(123, 75, 37, 0.2);
+  box-shadow: inset 0 0 0 3px rgba(217, 168, 79, 0.1);
 }
 
-.stamp {
+.stamp-token {
   aspect-ratio: 1;
   display: grid;
   place-items: center;
-  border: 3px dashed rgba(122, 45, 24, 0.25);
+  border: 3px dashed rgba(123, 47, 24, 0.22);
   border-radius: 999px;
-  color: rgba(122, 45, 24, 0.32);
-  background: #fffdf6;
-  font-size: 28px;
+  color: rgba(123, 47, 24, 0.38);
+  background: #fffdf8;
+  font-size: clamp(18px, 6vw, 30px);
   font-weight: 900;
 }
 
-.stamp.filled {
-  color: #fff7e8;
+.stamp-token--filled {
+  color: var(--gold-soft);
   border-style: solid;
-  border-color: rgba(122, 45, 24, 0.15);
+  border-color: rgba(217, 168, 79, 0.72);
   background:
-    radial-gradient(circle at 35% 30%, rgba(255,255,255,0.34), transparent 34%),
-    linear-gradient(135deg, var(--sauce-bright), var(--sauce));
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.32), transparent 34%),
+    radial-gradient(circle at 70% 76%, rgba(47, 139, 76, 0.24), transparent 28%),
+    linear-gradient(135deg, #2d2a25, var(--sauce));
+  box-shadow: 0 10px 20px rgba(123, 47, 24, 0.22);
 }
 
-.card {
+.reward-card {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 14px;
+  align-items: center;
   padding: 18px;
-  border-radius: 22px;
-  background: rgba(255, 250, 241, 0.9);
-  border: 1px solid rgba(139, 90, 43, 0.18);
+  border: 1px solid rgba(217, 168, 79, 0.5);
+}
+
+.reward-card::before {
+  content: "";
+  position: absolute;
+  inset: -30% -20% auto auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 999px;
+  background: rgba(217, 168, 79, 0.18);
+}
+
+.reward-card img {
+  position: relative;
+  z-index: 1;
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  object-position: 50% 12%;
+  transform: scale(1.55);
+}
+
+.reward-visual {
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--paper);
+  border: 3px solid var(--gold);
+}
+
+.benefit-card {
+  padding: 20px;
+  border: 1px solid rgba(217, 168, 79, 0.36);
+  background:
+    linear-gradient(135deg, rgba(123, 47, 24, 0.92), rgba(36, 33, 29, 0.96)),
+    radial-gradient(circle at top right, rgba(217, 168, 79, 0.28), transparent 14rem);
+}
+
+.back-link {
+  width: fit-content;
+  color: rgba(255, 244, 223, 0.74);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.input {
+  width: 100%;
+  min-height: 60px;
+  padding: 15px 16px;
+  border: 1px solid rgba(217, 168, 79, 0.28);
+  border-radius: 18px;
+  outline: 0;
+  background: rgba(255, 250, 240, 0.96);
+  color: var(--charcoal);
+  font-size: 18px;
+}
+
+.input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(217, 168, 79, 0.18);
 }
 
 .admin-row {
@@ -174,23 +453,82 @@ input {
   gap: 14px;
 }
 
-.input {
-  width: 100%;
-  min-height: 58px;
-  padding: 14px 16px;
-  border: 2px solid rgba(122, 45, 24, 0.18);
-  border-radius: 18px;
-  background: #fffaf1;
-  color: var(--iron);
-  font-size: 18px;
+.admin-brand {
+  overflow: hidden;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 224, 160, 0.18);
+  background: rgba(255, 244, 223, 0.06);
 }
 
-.muted {
-  color: #776b60;
+.admin-brand .ninja-banner {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.stat-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.stat-card {
+  padding: 18px;
+}
+
+.stat-card strong {
+  display: block;
+  color: var(--gold-soft);
+  font-size: 38px;
+}
+
+.customer-list {
+  display: grid;
+  gap: 16px;
+}
+
+.customer-admin-card {
+  display: grid;
+  gap: 18px;
+  padding: 18px;
+}
+
+.customer-admin-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  color: var(--kinari);
+  background: rgba(255, 244, 223, 0.08);
+  border: 1px solid rgba(255, 224, 160, 0.18);
+  font-weight: 800;
+}
+
+.pill.ready {
+  color: #2b1c10;
+  background: linear-gradient(135deg, #ffe0a0, var(--gold));
+}
+
+.action-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.empty-state {
+  padding: 28px;
+  text-align: center;
 }
 
 @media (min-width: 760px) {
-  .page {
+  .page,
+  .brand-page {
     padding: 40px;
   }
 
@@ -198,8 +536,29 @@ input {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .admin-row {
+  .hero-card {
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: 28px;
+    align-items: center;
+    padding: 34px;
+  }
+
+  .admin-row,
+  .customer-admin-card {
     grid-template-columns: 1fr auto;
     align-items: center;
+  }
+
+  .action-grid {
+    min-width: 260px;
+  }
+
+  .ninja-banner {
+    min-height: 170px;
+  }
+
+  .ninja-banner img {
+    min-height: 170px;
   }
 }

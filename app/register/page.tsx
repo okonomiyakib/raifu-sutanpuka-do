@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { BrandLayout, NinjaBanner } from "../components/BrandLayout";
 import { customerRepository } from "@/lib/customerRepository";
 
 export default function RegisterPage() {
@@ -24,15 +25,18 @@ export default function RegisterPage() {
   }
 
   return (
-    <main className="page">
-      <section className="phone-shell panel" style={{ padding: 24 }}>
-        <Link href="/" className="muted">
-          ← トップへ
-        </Link>
-        <h1 style={{ fontSize: 34, margin: "24px 0 8px" }}>お客さん登録</h1>
-        <p className="lead" style={{ fontSize: 18 }}>
-          はじめての方はこちら。名前だけでスタンプカードを作れます。
-        </p>
+    <BrandLayout compact backHref="/" backLabel="トップへ">
+      <section className="brand-card" style={{ padding: 20 }}>
+        <NinjaBanner label="はじめての常連札" />
+        <div className="grid" style={{ marginTop: 22 }}>
+          <span className="badge">名前だけで作れます</span>
+          <h1 className="section-title">お客さん登録</h1>
+          <p className="lead">
+            次に来た時、すぐ押せるように。
+            <br />
+            お名前を入れてカードを作ります。
+          </p>
+        </div>
 
         <form onSubmit={handleSubmit} className="grid" style={{ marginTop: 24 }}>
           <label style={{ fontSize: 18, fontWeight: 900 }} htmlFor="name">
@@ -46,11 +50,14 @@ export default function RegisterPage() {
             placeholder="例：田中さん"
           />
           {error && <p style={{ color: "var(--sauce)", fontWeight: 900 }}>{error}</p>}
-          <button className="button" type="submit">
+          <button className="button gold" type="submit">
             スタンプカードを作る
           </button>
+          <Link className="button secondary" href="/">
+            トップへ戻る
+          </Link>
         </form>
       </section>
-    </main>
+    </BrandLayout>
   );
 }
